@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Docente - Ingeniería Comercial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 500px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .logo-placeholder {
+            margin-bottom: 20px;
+        }
+
+        .logo-placeholder img {
+            max-width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 16px;
+            color: #0056b3;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-semestre {
+            display: block;
+            text-decoration: none;
+            background: #ffffff;
+            color: #333333;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        /* Efecto al pasar el mouse o tocar en el celular */
+        .btn-semestre:hover {
+            background: #0056b3;
+            color: #ffffff;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 86, 179, 0.2);
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 11px;
+            color: #999999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-placeholder">
+        <img src="logo.png" alt="Logo UAP" onerror="this.style.display='none'">
+    </div>
+
+    <h1>Evaluación Docente</h1>
+    <h2>Ingeniería Comercial</h2>
+    <p>Por favor, selecciona el semestre al que perteneces para empezar con la evaluación de tus asignaturas:</p>
+
+    <div class="menu-buttons">
+        <a href="pirmer%20semestre.html" class="btn-semestre">1er Semestre</a>
+        <a href="tercer%20semestre.html" class="btn-semestre">3er Semestre</a>
+        <a href="quinto%20semestre.html" class="btn-semestre">5to Semestre</a>
+        <a href="septimo%20semestre.html" class="btn-semestre">7mo Semestre</a>
+        <a href="noveno%20semestre.html" class="btn-semestre">9no Semestre</a>
+    </div>
+
+    <div class="footer">
+        Universidad Amazónica de Pando &copy; 2026
+    </div>
+</div>
+
+</body>
+</html>
