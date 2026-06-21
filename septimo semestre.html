@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación a Docentes por los Estudiantes - UAP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            color: #000;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+        
+        /* Encabezado */
+        .header {
+            position: relative;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+        .header-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.61cm;
+            height: 1.91cm;
+            object-fit: contain;
+        }
+        .header-text {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.4;
+            color: #444;
+        }
+        .form-code {
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+            color: #003366;
+            font-size: 14px;
+        }
+        .title-block {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .title-block h2 {
+            margin: 5px 0;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Fila de Información de Carrera */
+        .info-row {
+            margin-top: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 8px;
+        }
+        .instrucciones {
+            font-size: 11px;
+            margin: 15px 0;
+            line-height: 1.4;
+        }
+        
+        /* CONTENEDOR MÁGICO PARA CELULARES */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+        
+        /* Tabla Matriz */
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        th, td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 6px 4px;
+        }
+        
+        /* Estilos de Encabezados Verticales */
+        .th-asignaturas {
+            background-color: #E2D9F3;
+            font-weight: bold;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+        .vertical-text-th {
+            height: 150px;
+            white-space: nowrap;
+            vertical-align: bottom;
+            padding-bottom: 15px;
+            width: 45px;
+        }
+        .vertical-text-th div {
+            transform: rotate(-90deg);
+            width: 30px;
+            margin: 0 auto;
+            font-weight: bold;
+            font-size: 10px;
+        }
+        
+        /* Columnas A, B, C */
+        .col-abc {
+            background-color: #E2D9F3;
+            font-weight: bold;
+            width: 40px;
+        }
+        .cell-opcion {
+            font-size: 10px;
+            width: 65px;
+            background-color: #fff;
+        }
+        
+        /* Filas de preguntas */
+        .cell-num {
+            width: 25px;
+            font-weight: bold;
+        }
+        .cell-pregunta {
+            text-align: left;
+            padding: 8px;
+            min-width: 280px;
+            line-height: 1.3;
+        }
+        
+        /* Selectores Desplegables en las Celdas */
+        select {
+            width: 100%;
+            padding: 4px 2px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+        select:focus {
+            border-color: #003366;
+            outline: none;
+        }
+        
+        /* Barra inferior del formulario */
+        .submit-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .anexo {
+            font-weight: bold;
+            font-size: 13px;
+            color: #003366;
+        }
+        .btn-enviar {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-enviar:hover {
+            background-color: #002244;
+        }
+        .btn-enviar:disabled {
+            background-color: #778899;
+            cursor: not-allowed;
+        }
+
+        @media (min-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            .form-container {
+                padding: 30px;
+            }
+            .form-code {
+                position: absolute;
+                right: 10px;
+                top: 40px;
+                margin-top: 0;
+            }
+            .title-block h2 {
+                font-size: 16px;
+            }
+            .info-row {
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: 13px;
+            }
+            .table-responsive {
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<form id="evalForm">
+    <input type="hidden" name="semestre" value="7">
+    
+    <div class="form-container">
+        
+        <div class="header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div class="header-text" style="flex: 1; text-align: center; min-width: 250px;">
+                Universidad Amazónica de Pando<br>
+                Vicerrectorado<br>
+                Dirección Académica<br>
+                Unidad de Personal Docente, Evaluacion Docente
+            </div>
+            <img src="logo.png" alt="Logo UAP" class="header-logo" style="height: 55px; width: auto; order: -1; margin: 0 auto;">
+            <div class="form-code" style="font-weight: bold; color: #003366; font-size: 14px;">FLA 003</div>
+        </div>
+
+        <div class="title-block">
+            <h2>EVALUACIÓN A DOCENTES POR LOS ESTUDIANTES</h2>
+        </div>
+
+        <div class="info-row">
+            <span>Carrera: Ingeniería Comercial</span>
+            <span>Semestre: SÉPTIMO</span>
+            <span>Gestión: 2026</span>
+        </div>
+
+        <div class="instrucciones">
+            <strong>Seleccione en cada casilla de las asignaturas la opción <u>A</u>, <u>B</u> o <u>C</u> según corresponda su opinión con la pregunta.</strong> 
+            <span style="color: #666; display: block; margin-top: 4px; font-style: italic;">(Si estás en celular, puedes deslizar la tabla hacia los lados para ver todas las materias).</span>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2" colspan="2" style="border: none; background: transparent;"></th>
+                        <th class="col-abc">A</th>
+                        <th class="col-abc">B</th>
+                        <th class="col-abc">C</th>
+                        <th colspan="6" class="th-asignaturas">ASIGNATURAS</th>
+                    </tr>
+                    <tr>
+                        <th class="col-abc" style="background:#fff;">A</th>
+                        <th class="col-abc" style="background:#fff;">B</th>
+                        <th class="col-abc" style="background:#fff;">C</th>
+                        <th class="vertical-text-th"><div>MARKETING ESTARTEGICO </div></th>
+                        <th class="vertical-text-th"><div>GESTION DE LA INNOVACION</div></th>
+                        <th class="vertical-text-th"><div>GESTION LOGISTICA</div></th>
+                        <th class="vertical-text-th"><div>LIDERAZGO EMPRESARIAL</div></th>
+                        <th class="vertical-text-th"><div>PREPARACION Y EVALUACION <br> DE PROYECTOS PRIVADOS</div></th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cell-num">1</td>
+                        <td class="cell-pregunta">¿En la socialización del Proyecto Formativo, comprendió el alcance de la asignatura?</td>
+                        <td class="cell-opcion">Mucho</td>
+                        <td class="cell-opcion">Poco</td>
+                        <td class="cell-opcion">Muy poco</td>
+                        <td><select name="p1_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p1_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p1_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p1_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p1_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">2</td>
+                        <td class="cell-pregunta">¿Al inicio de cada clase se hace énfasis en el criterio de desempeño, las actividades y aspectos a evaluar para el logro de la Unidad de Competencia?</td>
+                        <td class="cell-opcion">Siempre</td>
+                        <td class="cell-opcion">A veces</td>
+                        <td class="cell-opcion">Nunca</td>
+                        <td><select name="p2_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p2_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p2_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p2_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p2_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                       
+                    </tr>
+                    <tr>
+                        <td class="cell-num">3</td>
+                        <td class="cell-pregunta">¿Está usted satisfecho con la secuencia de temas avanzados, planificados en el Proyecto Formativo de la asignatura?</td>
+                        <td class="cell-opcion">Muy Satisfecho</td>
+                        <td class="cell-opcion">Satisfecho</td>
+                        <td class="cell-opcion">Insatisfecho</td>
+                        <td><select name="p3_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p3_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p3_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p3_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p3_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">4</td>
+                        <td class="cell-pregunta">¿Las clases se desarrollan en los horarios establecidos?</td>
+                        <td class="cell-opcion">Siempre</td>
+                        <td class="cell-opcion">A veces</td>
+                        <td class="cell-opcion">Nunca</td>
+                        <td><select name="p4_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p4_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p4_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p4_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p4_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">5</td>
+                        <td class="cell-pregunta">El docente genera actividades en las que existe la participación activa de los estudiantes, es decir, opinan, investigan, discuten, analizan, exponen, etc., para su aprendizaje.</td>
+                        <td class="cell-opcion">Siempre</td>
+                        <td class="cell-opcion">A veces</td>
+                        <td class="cell-opcion">Nunca</td>
+                        <td><select name="p5_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p5_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p5_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p5_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p5_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">6</td>
+                        <td class="cell-pregunta">¿Está usted satisfecho con la metodología con la que el docente desarrolla su clase?</td>
+                        <td class="cell-opcion">Muy satisfecho</td>
+                        <td class="cell-opcion">Satisfecho</td>
+                        <td class="cell-opcion">Insatisfecho</td>
+                        <td><select name="p6_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p6_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p6_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p6_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p6_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">7</td>
+                        <td class="cell-pregunta">¿Consideras que el docente tiene dominio en la temática de la asignatura?</td>
+                        <td class="cell-opcion">Bastante</td>
+                        <td class="cell-opcion">Algo</td>
+                        <td class="cell-opcion">Muy Poco</td>
+                        <td><select name="p7_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p7_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p7_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p7_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p7_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">8</td>
+                        <td class="cell-pregunta">¿La forma en que se evalúa su aprendizaje se lo realiza acorde a lo planificado en el PF?</td>
+                        <td class="cell-opcion">Siempre</td>
+                        <td class="cell-opcion">A Veces</td>
+                        <td class="cell-opcion">Nunca</td>
+                        <td><select name="p8_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p8_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p8_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p8_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p8_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                       
+                    </tr>
+                    <tr>
+                        <td class="cell-num">9</td>
+                        <td class="cell-pregunta">¿Consideras que el docente de la asignatura te ha proporcionado las herramientas para el desarrollo del aprendizaje autónomo?</td>
+                        <td class="cell-opcion">Mucho</td>
+                        <td class="cell-opcion">Poco</td>
+                        <td class="cell-opcion">Muy poco</td>
+                        <td><select name="p9_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p9_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p9_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p9_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p9_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="cell-num">10</td>
+                        <td class="cell-pregunta">¿El docente hace conocer oportunamente los resultados de trabajos, prácticas y evaluaciones correspondientes?</td>
+                        <td class="cell-opcion">Siempre</td>
+                        <td class="cell-opcion">A veces</td>
+                        <td class="cell-opcion">Nunca</td>
+                        <td><select name="p10_mat1" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p10_mat2" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p10_mat3" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p10_mat4" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                        <td><select name="p10_mat5" required><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option></select></td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="submit-bar">
+            <span class="anexo">Anexo A</span>
+            <button type="submit" id="submitBtn" class="btn-enviar">Guardar Evaluación</button>
+        </div>
+    </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.getElementById('evalForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Detiene el envío clásico e impide recargar la página
+
+    // Deshabilitar botón para evitar doble envío accidental
+    document.getElementById('submitBtn').disabled = true;
+
+    Swal.fire({
+      title: 'Enviando...',
+      text: 'Por favor espera mientras guardamos tu evaluación.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    // Recopilar los datos del formulario
+    var formData = new FormData(this);
+    
+    // Convertir los datos en formato compatible con URL-encoded (necesario para Apps Script)
+    var urlParams = new URLSearchParams();
+    for (var pair of formData.entries()) {
+        urlParams.append(pair[0], pair[1]);
+    }
+
+    // Tu URL de Google Apps Script corregida para trabajar de fondo
+    var urlScript = 'https://script.google.com/macros/s/AKfycbxcGaLo1Y0LQWVCSEKnzBnzp17e0Izr_BTI2fU1X7MtcnC7gLigTjD67n7mTCRSXz3o/exec';
+
+    // Ejecutar petición Fetch hacia la Web App de Google
+    fetch(urlScript, {
+        method: 'POST',
+        mode: 'cors', // Habilita la comunicación cruzada externa
+        body: urlParams.toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Respuesta de red no conforme.');
+        }
+        return response.json();
+    })
+    .then(res => {
+        // Habilitar de nuevo el botón de envío
+        document.getElementById('submitBtn').disabled = false;
+        
+        if (res.status === 'success') {
+          Swal.fire({
+            title: "BIEN ECHO!",
+            text: res.message,
+            icon: "success"
+          });
+          
+          document.getElementById('evalForm').reset(); // Limpia los selects al terminar con éxito
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: res.message || "Hubo un problema al guardar.",
+            icon: "error"
+          });
+        }
+    })
+    .catch(error => {
+        document.getElementById('submitBtn').disabled = false;
+        Swal.fire({
+          title: "Error de red",
+          text: "No se pudo conectar con el servidor. Verifica tu conexión o permisos.",
+          icon: "error"
+        });
+        console.error('Error detallado:', error);
+    });
+  });
+</script>
+
+</body>
+</html>
